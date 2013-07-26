@@ -14,7 +14,7 @@ setSecretWord: function(){
 // The below generates a word of underscores of same length as secretWord
 createSecretWordWithBlanks: function(){
   for (var i = 0; i < this.secretWord.length; i++) {
-    this.secretWordWithBlanks += "_ ";
+    this.secretWordWithBlanks += "_";
     this.secretWordWithBlanks.trim();
   }
 },
@@ -32,20 +32,27 @@ if (_.contains(this.secretWord, letterGuess) === true) {
 }
 },
 
-wordProgress: function(){
+wordProgress: function(letterGuess){
 // where secretWord[i] == letterGuess, replace i with that letter
+  for (var i = 0; i < this.secretWord.length; i++) {
+    var temp =  this.secretWordWithBlanks.split("");
+    if (this.secretWord[i] === letterGuess) {
+    temp[i] = letterGuess;
+    this.secretWordWithBlanks = temp.join("");
+    // this.secretWordWithBlanks = this.secretWordWithBlanks[i].replace(/_/g, letterGuess);
+  }
+}
+}
+};
 
-//TESTING GROUND
-// for (var i = 0; i < this.secretWord.length, i++) {
-//   if (i = letterGuess) {
-//     secretWordWithBlanks[i]
-//   }
+// var str1="my__st_ri_ng";
+// var str2=str1.replace(/_/g, ' ');
 
 //   console.log("hello!");
 // }
 
-}
-};
+// }
+// };
 
 var player = {
   MAX_GUESSES: 8,
