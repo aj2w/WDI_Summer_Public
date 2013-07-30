@@ -1,7 +1,7 @@
 var word = {
   secretWord: "",
   correctLetters: [],
-  incorrectLetters: [],
+  guessedLetters: [],
   secretWordWithBlanks: "",
 
   wordList: ['ruby', 'rails', 'javascript', 'array', 'hash', 'underscore', 'sinatra', 'model', 'controller', 'view', 'devise', 'authentication', 'capybara', 'jasmine', 'cache', 'sublime', 'terminal', 'system', 'twitter', 'facebook', 'function', 'google', 'amazon', 'development', 'data', 'design', 'inheritance', 'prototype', 'gist', 'github', 'agile', 'fizzbuzz', 'route', 'gem', 'deployment', 'database'],
@@ -11,7 +11,7 @@ setSecretWord: function(){
   this.secretWord = this.wordList[_.random(0,this.wordList.length)];
 },
 
-// The below generates a word of underscores of same length as secretWord
+// Generates a word of underscores of same length as secretWord
 createSecretWordWithBlanks: function(){
   for (var i = 0; i < this.secretWord.length; i++) {
     this.secretWordWithBlanks += "_";
@@ -19,83 +19,99 @@ createSecretWordWithBlanks: function(){
   }
 },
 
-// Takes an array of letters as input and returns an array of two items:
-// 1) A string with the parts of the secret word that have been guessed correctly and underscore for the parts that haven't
-// 2) An array of all the guessed letters that were not in the secret word
-checkLetters: function(letterGuess){
-// this.correctLetters = [];
-var incorrectLetters = [];
-if (_.contains(this.secretWord, letterGuess) === true) {
-  this.correctLetters.push(letterGuess);
-} else if (_.contains(this.secretWord, letterGuess) === false) {
-  this.incorrectLetters.push(letterGuess);
-}
-},
-
+// Checks if letterGuess matches a letter in secretWord and replaces that same letter in secretWordWithBlanks
 wordProgress: function(letterGuess){
-// where secretWord[i] == letterGuess, replace i with that letter
   for (var i = 0; i < this.secretWord.length; i++) {
     var temp =  this.secretWordWithBlanks.split("");
     if (this.secretWord[i] === letterGuess) {
-    temp[i] = letterGuess;
-    this.secretWordWithBlanks = temp.join("");
-    // this.secretWordWithBlanks = this.secretWordWithBlanks[i].replace(/_/g, letterGuess);
+      temp[i] = letterGuess;
+      this.secretWordWithBlanks = temp.join("");
+    }
   }
-}
+  this.guessedLetters.push(letterGuess);
 }
 };
 
-// var str1="my__st_ri_ng";
-// var str2=str1.replace(/_/g, ' ');
 
-//   console.log("hello!");
-// }
-
-// }
-// };
 
 var player = {
   MAX_GUESSES: 8,
+  numGuesses: 8,
+  letterGuess: "",
 
 // Takes a new letter as input and updates the game
 makeGuess: function(letter){
-var letterGuess = prompt("Please guess a letter") // needs to be changed to the game function DOM later on
+  this.letterGuess = document.getElementById("letterField").value;
+  this.numGuesses = this.numGuesses - 1;
+  document.getElementById("letterField").value = "";
 },
 
 // Check if the player has won and end the game if so
 checkWin: function(wordString){
-// if wordString == secretWord ==> WIN!!!!
-// use match function in underscore
+  if (word.secretWordWithBlanks === word.secretWord) {
+    document.getElementById("wordString").innerHTML = "You've won!";
+  }
 },
 
 // Check if the player has lost and end the game if so
-checkLose: function(wrongLetters){
-  if (word.incorrectLetters.length > MAX_GUESSES) {
-console.log("You have lost") //refine this message
-}
+checkLose: function(){
+  if (this.numGuesses === 0) {
+    document.getElementById("wordString").innerHTML = "You lost!";
+  }
 }
 };
+
+
 
 var game = {
 // Resets the game
 resetGame: function(){
-// reset the variables to blank
+  word.secretWord = "";
+  word.secretWordWithBlanks = "";
+  word.setSecretWord();
+  word.createSecretWordWithBlanks();
+  document.getElementById("wordString").innerHTML = word.secretWordWithBlanks;
 },
 
 // Reveals the answer to the secret word and ends the game
 giveUp: function(){
-// show secretWord, trigger a frowny face or something to signify loss
+  document.getElementById("wordString").innerHTML = word.secretWord;
 },
 
 // Update the display with the parts of the secret word guessed, the letters guessed, and the guesses remaining
-updateDisplay: function(secretWordWithBlanks, guessedLetters, guessesLeft){
-
+updateDisplay: function(secretWordWithBlanks, guessedLetters, numGuesses){
+  document.getElementById("lettersUsed").innerHTML = "Letters Guessed Already: "+word.guessedLetters+ " ";
+  document.getElementById("wordString").innerHTML = word.secretWordWithBlanks;
+  document.getElementById("guessesLeft").innerHTML = player.numGuesses;
+  player.checkWin();
+  player.checkLose();
 }
 };
 
+
+
 window.onload = function(){
-// Start a new game
-// Add event listener to the letter input field to grab letters that are guessed
-// Add event listener to the reset button to reset the game when clicked
-// Add event listener to the give up button to give up when clicked
+  word.setSecretWord();
+  word.createSecretWordWithBlanks();
+  document.getElementById("wordString").innerHTML = word.secretWordWithBlanks;
+  document.getElementById("guessesLeft").innerHTML = player.numGuesses;
+
+document.addEventListener("keydown", keyDownTextField, false);
+function keyDownTextField(e) {
+var keyCode = e.keyCode;
+  if(keyCode==13) {
+  player.makeGuess(); //assigns letter to player.letterGuess
+    word.wordProgress(player.letterGuess); //checks letter against secretWord
+    game.updateDisplay(word.secretWordWithBlanks,word.guessedLetters);
+
+  }
+}
+
+  document.getElementById("giveUpButton").onclick = function(event) {
+    game.giveUp();
+  };
+
+  document.getElementById("resetButton").onclick = function(event) {
+    game.resetGame();
+  }
 };
