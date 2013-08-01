@@ -28,6 +28,7 @@ body {
 }
 #guessBox {
   height: 50%;
+  /*visibility: hidden;*/
 }
 
 #guessedLetters {
@@ -64,6 +65,11 @@ input {
   -webkit-border-radius: 10px;
   border-radius: 10px;
 }
+
+/*#letterSubmit {
+  visibility: hidden;
+}*/
+
 .button: hover {
   background-color: rgba(255,0,51,0.8);
  }

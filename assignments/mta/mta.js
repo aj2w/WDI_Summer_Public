@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+var trainArray = [];
+=======
 // Refactor your code with underscore
 // Prompt the user
 // Please choose a startLine
@@ -8,10 +11,12 @@
 // Display the number of stops
 // Track the total journeys taken
 // Calculate total cost of journeys taken at $2.50 per ride.
+>>>>>>> upstream/master
 
 function Train(name, stations) {
   this.name = name;
   this.stations = stations;
+  trainArray.push(this);
 }
 
 Train.prototype.distance = function(board, exit) {
@@ -31,6 +36,43 @@ var nTrain = new Train('The N Train', nStations);
 var sixTrain = new Train('The Six Train', sixStations);
 var gTrain = new Train('The G Train', gStations);
 
+<<<<<<< HEAD
+function displayLines() {
+  var trainNames = "";
+  for (var i = 0; i < trainArray.length; i++) {
+    trainNames += trainArray[i].name + '\n';
+  }
+  return trainNames.trim();
+}
+
+// Prompts
+var msg = ("Which train would you like to get on?\n" + displayLines());
+var startTrain = prompt(msg);
+
+function inArray(startTrain) {
+  var train = trainArray.length;
+  for(var i = 0; i < train; i++) {
+    if(trainArray[i].name == startTrain)
+      return trainArray[i];
+  }
+}
+
+trainSelected = inArray(startTrain);
+
+function displayStations() {
+  var selectedTrainStations = "";
+  for (i = 0; i < trainSelected.stations.length; i++) {
+    selectedTrainStations += trainSelected.stations[i] + '\n';
+  }
+  return selectedTrainStations.trim();
+}
+
+var msg2 = prompt("Which station would you like to get on?\n" + displayStations());
+
+
+
+
+=======
 var trains = [lTrain, nTrain, sixTrain, gTrain, sTrain];
 
 var msg = "Which train would you \nlike to get on?" + displayLines();
@@ -87,3 +129,4 @@ function displayStations() {
 
 var msg2 = "Which station would you \nlike to get on?\n" + displayStations();
 var startStation = prompt(msg2);
+>>>>>>> upstream/master
