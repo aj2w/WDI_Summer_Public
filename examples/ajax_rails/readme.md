@@ -13,7 +13,7 @@ This ToDo app handles 4 events:
 3. Task completion
 4. Deleting a task
 
-These events are handled through making ajax calls to the Rails back end.  The first two, page load and new task submission, make json requests.  We'll then write a function for generating and appending the task HTML from this json resonse and send it to the client in `aplication.js`.
+These events are handled through making ajax calls to the Rails back end.  The first two, page load and new task submission, make json requests.  We'll then write a function for generating and appending the task HTML from this json resonse and send it to the client in `application.js`.
 
 Since the last two events require DOM manipulation but don't return any data we make those request the javascript (.js) to do the DOM manipulation.
 
@@ -53,5 +53,9 @@ Since the last two events require DOM manipulation but don't return any data we 
 31. In the `TasksController#destroy` action, find the task by id and delete that task from the database .
 32. In the `TasksController#destroy` action, make `respond_to` respond to a javascript request .
 33. Create a `destroy.js.erb` file in the `app/views/tasks` that will hold the javascript response
+<<<<<<< HEAD
 
 34. In the `destroy.js.erb` file, use the HTML `data-id` attribute to find the task in the DOM and remove it .
+=======
+34. In the `destroy.js.erb` file, use the HTML `data-id` attribute to find the task in the DOM and remove it .
+>>>>>>> upstream/master
