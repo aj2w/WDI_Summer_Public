@@ -6,11 +6,19 @@ class School
     @students = {}
   end
 
+<<<<<<< HEAD
   def enroll_student(name,gpa)
     @students[name] = gpa
   end
 
   def grade(name,gpa)
+=======
+  def enroll_student(name, gpa)
+    @students[name] = gpa
+  end
+
+  def grade(name, gpa)
+>>>>>>> upstream/master
     @students[name] = gpa
   end
 
@@ -21,4 +29,8 @@ class School
   def withdraw_student(name)
     @students.delete(name)
   end
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
 end
