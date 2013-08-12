@@ -30,7 +30,7 @@ var todoApp = {
 		this.appendTask(task);
 	},
 	//this method is used to render a new todoItem as a DOM element append it to the page DOM
-	//the new todoItem object to be rendered is passed as an argument 
+	//the new todoItem object to be rendered is passed as an argument
 	appendTask: function(task){
 		//we don't want to add blank tasks
 		if(task.taskName.length!==0){
@@ -162,4 +162,4 @@ window.onload = function(){
 	//because we want to give the user a choice of pressing 'enter' or clicking on the Add Item button we add our input_event function to both types of events
 	button.onclick = inputEvent;
 	userInput.onkeypress = inputEvent;
-}	
+}
