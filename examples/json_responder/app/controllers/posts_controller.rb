@@ -6,7 +6,11 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+<<<<<<< HEAD
       format.json { render json: {posts: @posts, only: [:title, :body, :created_at], include: [:author] }}
+=======
+      format.json { render json: {posts: @posts, only: [:title, :body, :created_at] }}
+>>>>>>> upstream/master
     end
   end
 
