@@ -8,6 +8,7 @@ var Weapon = Backbone.Model.extend({
 		number_slain: 9001
 	}
 });
+
 // COLLECTION: Weapons
 var Weapons = Backbone.Collection.extend({
 	model: Weapon
@@ -42,11 +43,12 @@ var AppRouter = Backbone.Router.extend({
 
 // Single
 var ShowWeaponView = Backbone.View.extend({
+	el: $('#main'),
 	render: function(){
 		var source = $('#weapon-show-template').html(),
 			template = Handlebars.compile(source),
 			templateHTML = template(this.model.toJSON());
-		$('#main').html(templateHTML); // REFACTOR THIS LINE
+		this.$el.html(templateHTML); // REFACTOR THIS LINE
 
 		return this;
 	}
@@ -54,7 +56,7 @@ var ShowWeaponView = Backbone.View.extend({
 
 // Single view for our list
 var ListSingleWeaponView = Backbone.View.extend({
-	tagName: 'div',
+	tagName: 'li',
 	events: {
 		'click':'view'
 	},
@@ -62,45 +64,36 @@ var ListSingleWeaponView = Backbone.View.extend({
 		var source = $('#weapon-show-template').html(),
 			template = Handlebars.compile(source),
 			templateHTML = template(this.model.toJSON());
-		$('#main').append(templateHTML); // REFACTOR THIS LINE
-
+		this.$el.html(templateHTML);
 		return this;
 	},
 	view: function() {
-		debugger;
-		app.navigate('weapons/' + this.model.slug, true);
+		app.navigate('weapons/' + this.model.get('slug'), true);
 	}
 });
 
 // Multiple Weapons
 var IndexWeaponsView = Backbone.View.extend({
+	el: $('#main'),
 	initialize: function () {
-		Handlebars.registerPartial('weapon', $('#weapon-show-template'))
+		// Populate the application with the IndexWeaponsView template
+		var appViewTemplate = $('#app-template').html();
+		this.$el.html(appViewTemplate);
+		
+		// Cache commonly used selector
+		this.list = $('#weapons-list');
 	},
 	render: function() {
 		this.collection.each(function(weapon){
 			var view = new ListSingleWeaponView({model: weapon})
-			view.render();
-		});
+			this.list.append(view.render().el);
+		}, this);
 
 		return this;
 	}
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
 // jQuery Onload function
-
 $(function(){
 	app = new AppRouter;
 	Backbone.history.start();
